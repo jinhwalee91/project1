@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 
 namespace shoppingApp.Models
@@ -7,20 +8,24 @@ namespace shoppingApp.Models
     public class customerModel
     {
 
-        // put customer properties here
-        public int cId { get; set; }
+        #region Properties here
+        public int cNo { get; set; }
+
+        public string cId { get; set; }
+
         public string cName { get; set; }
+
         public string cEmail { get; set; }
 
+        public int cAge { get; set; }
+      //   public DateTime cdob { get; set; }
+        #endregion
 
-
-        // sql connection here
+        #region SQL connection
         SqlConnection con = new SqlConnection("server=DESKTOP-TDF3AT3\\SQLEXPRESS; database = project1; integrated security = true");
+        #endregion
 
-
-        // methods here
-
-        // 1. View all customer list
+        #region Customer List
         public List<customerModel> getCustomerList()
         {
             SqlCommand cmd_getCustomerList = new SqlCommand("select * from customer", con);
@@ -38,9 +43,12 @@ namespace shoppingApp.Models
                 {
                     cList.Add(new customerModel()
                     {
-                        cId = Convert.ToInt32(readAllCustomer[0]),
-                        cName = Convert.ToString(readAllCustomer[1]),
-                        cEmail = Convert.ToString(readAllCustomer[2]),
+                        cNo = Convert.ToInt32(readAllCustomer[0]),
+                        cId = Convert.ToString(readAllCustomer[1]),
+                        cName = Convert.ToString(readAllCustomer[2]),
+                        cEmail = Convert.ToString(readAllCustomer[3]),
+                        //cdob = Convert.ToDateTime(readAllCustomer[4]),
+                        cAge = Convert.ToInt32(readAllCustomer[4]),
                        
 
                     });
@@ -57,9 +65,10 @@ namespace shoppingApp.Models
             }
             return cList;
         }
-
-        // 2. Get customer detail by putting customer id 
-        public customerModel getCustomerDetail(int cId)
+        #endregion
+ 
+        #region Get customer detail by putting customer id 
+        public customerModel getCustomerDetail(string cId)
         {
             SqlCommand cmd_getCustomerDetail = new SqlCommand("select * from customer where cId=@cId", con);
 
@@ -75,10 +84,12 @@ namespace shoppingApp.Models
                 read_customer = cmd_getCustomerDetail.ExecuteReader();
                 if (read_customer.Read())
                 {
-                    
-                    cModel.cId = Convert.ToInt32(read_customer[0]);
-                    cModel.cName = Convert.ToString(read_customer[1]);
-                    cModel.cEmail= Convert.ToString(read_customer[2]);
+                    cModel.cNo = Convert.ToInt32(read_customer[0]);
+                    cModel.cId = Convert.ToString(read_customer[1]);
+                    cModel.cName = Convert.ToString(read_customer[2]);
+                    cModel.cEmail= Convert.ToString(read_customer[3]);
+                    // cModel.cdob = Convert.ToDateTime(read_customer[4]);
+                    cModel.cAge = Convert.ToInt32(read_customer[4]);
                     
                     
                 }
@@ -99,19 +110,17 @@ namespace shoppingApp.Models
             return cModel;
 
         }
+        #endregion
 
-
-
-        // 3. Add new customer 
-
-
-        public string addCustomer(customerModel newcustomer)
+        #region Add new customer
+        public string addCustomer(string userID, string Name, string Email, int Age)
         {
-            SqlCommand cmd_addCustomer = new SqlCommand("Insert into customer values(@cId, @cName, @cEmail)", con);
+            SqlCommand cmd_addCustomer = new SqlCommand("Insert into customer values(@cId, @cName, @cEmail,@cDob)", con);
 
-            cmd_addCustomer.Parameters.AddWithValue("@cId", newcustomer.cId);
-            cmd_addCustomer.Parameters.AddWithValue("@cName", newcustomer.cName);
-            cmd_addCustomer.Parameters.AddWithValue("@cEmail", newcustomer.cEmail);
+            cmd_addCustomer.Parameters.AddWithValue("@cId", userID);
+            cmd_addCustomer.Parameters.AddWithValue("@cName", Name);
+            cmd_addCustomer.Parameters.AddWithValue("@cEmail", Email);
+            cmd_addCustomer.Parameters.AddWithValue("@cDob", Age);
           
 
 
@@ -130,20 +139,24 @@ namespace shoppingApp.Models
             }
             return "The customer has been added successfully";
         }
+        #endregion
 
-        // 4. delete customer 
-
-
-        public string deleteCustomer(int cId)
+        #region Delete Customer
+        public string deleteCustomer(string cId)
         {
             SqlCommand cmd_deleteCustomer = new SqlCommand("delete from customer where @cId = cId", con);
 
             cmd_deleteCustomer.Parameters.AddWithValue("@cId", cId);
 
+         
+
             try
             {
-                con.Open();
-                cmd_deleteCustomer.ExecuteNonQuery();
+             
+                    con.Open();
+                    cmd_deleteCustomer.ExecuteNonQuery();
+
+
             }
             catch (Exception ex)
             {
@@ -155,16 +168,17 @@ namespace shoppingApp.Models
             }
             return "The selected customer has been deleted";
         }
+        #endregion
 
-        // 5. Update the customer Method
-
-        public string updateCustomer(customerModel update)
+        #region Update customer
+        public string updateCustomer(string cId, string cName, string cEmail)
         {
             SqlCommand cmd_updateCustomer = new SqlCommand("Update customer set cName=@cName, cEmail = @cEmail where cId=@cId", con);
 
-            cmd_updateCustomer.Parameters.AddWithValue("@cName", update.cName);
-            cmd_updateCustomer.Parameters.AddWithValue("@cEmail", update.cEmail);
-            cmd_updateCustomer.Parameters.AddWithValue("@cId", update.cId);
+            cmd_updateCustomer.Parameters.AddWithValue("@cId", cId);
+            cmd_updateCustomer.Parameters.AddWithValue("@cName", cName);
+            cmd_updateCustomer.Parameters.AddWithValue("@cEmail", cEmail);
+
 
             try
             {
@@ -182,9 +196,7 @@ namespace shoppingApp.Models
             }
             return "The customer has been updated successfully";
         }
-
-
-
-
+        #endregion
+      
     }
 }
