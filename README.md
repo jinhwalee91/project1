@@ -24,6 +24,7 @@ It is designed for very easy using, simply you can put numbers and all features 
 - Swagger
 - REST
 - Web API
+- Serilog
 
 
 # Feature 
