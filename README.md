@@ -2,6 +2,9 @@
 This shopping app allows managers of online shopping mall easy to track orders , customers and products.
 It is designed for very easy using, simply you can put numbers and all features automated executed. 
 
+***--
+RESTFul api service / WebAPI for online shopping for owners and customers, having CRUD operations, API allows customers to view products list, order online, track orders, view history, register as a member, view invoice and complete history since they registered, admin can add new products, dilivery status, payment status
+--*** 
 
 # Project Overview 
 1. Duration of development : 7 days
