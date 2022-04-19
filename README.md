@@ -53,10 +53,14 @@ It is designed for very easy using, simply you can put numbers and all features 
 2. Open project with Visual Studio
 3. Click 'IIS Express' button on the top and Swagger page will be automatically show up
 
+Following picture is the main page you can check all the app features in one screen
 ![project 1 page ](https://user-images.githubusercontent.com/98568453/164034706-4906f3ce-9cd6-4e0f-8f82-bd7ef67d7b29.png)
 
+
+For example, to check all the order list you can simply go Order list and click execute button. All order list will be shown up.
 ![project1 order list](https://user-images.githubusercontent.com/98568453/164034775-5ccf2572-5058-4b66-ae2b-6ce326c749dd.png)
 
+One of the greatest features for online shopping managers, that you can simply retreive invoice amount by just putting either customer id or order No! 
 ![project 1 search invoice by customer No](https://user-images.githubusercontent.com/98568453/164034802-6f236fe6-a700-4a82-a63c-842bf6fe9a8d.png)
 
 
